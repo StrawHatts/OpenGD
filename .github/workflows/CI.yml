@@ -27,6 +27,18 @@ jobs:
       run: |
         git clone --depth=1 https://github.com/axmolengine/axmol $HOME/axmol
         . $HOME/axmol/build.ps1 -d "$HOME/axmol" -xb '--config','Release','--target','sources-migrate'
+    - name: Build 
+      run: |
+        axmol build
+    - name: Add Jar to GitHub releases
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: false
+        title: "Automatic Release"
+        files: |
+          *.apk
     - name: Migrate sources
       run: |
         git checkout main
